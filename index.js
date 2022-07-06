@@ -35,8 +35,7 @@ async function checkSchedule(schedule) {
         return console.log('Error receiving data from 511: ' + err)
     }
     if (!data || !data.data) {
-        console.log('Error receiving data from 511.')
-        return
+        return console.log('Error receiving data from 511.')
     }
 
     let entries = []
@@ -49,8 +48,7 @@ async function checkSchedule(schedule) {
     })
 
     if (!record) {
-        console.log(`Skipping: Train ${schedule.VehicleRef} is not currently found on the line`)
-        return;
+        return console.log(`Skipping: Train ${schedule.VehicleRef} is not currently found on the line`)
     }
 
     let yourStop = _.find(record.OnwardCalls.OnwardCall, (n) => {
@@ -88,7 +86,6 @@ async function checkSchedule(schedule) {
         let diff = act.diff(sch, 'minutes')
         let tf = act.format('h:mm:ss')
         let str = `${s} @ ${tf}`
-
 
         if (schedule.notify == 'always' || (schedule.notify == 'late' && diff > 1)) {
             if (diff > 0) {
