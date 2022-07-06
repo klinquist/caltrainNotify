@@ -2,48 +2,24 @@
     "pushover_user_key": "XXXX",
     "pushover_api_token": "XXXXX",
     "511_api_key": "XXXXX",
-    "time_zone":"America/Los_Angeles",
+    "time_zone": "America/Los_Angeles",
     "schedules": [
         {
-            "cron": "0 35 6 * * *",
+            "cron": "0 40 6 * * 1-5",
             "notify": "always",
             "stop_id": 70241,
-            "VehicleRef": "415"
+            "VehicleRef": "403"
         },
         {
-            "cron": "0 40 6 * * *",
+            "cron": "0 50 16 * * 1-5",
             "notify": "always",
-            "stop_id": 70241,
-            "VehicleRef": "415"
-        },
-        {
-            "cron": "0 45 6 * * *",
-            "notify": "always",
-            "stop_id": 70241,
-            "VehicleRef": "415"
-        },
-        {
-            "cron": "0 40 16 * * *",
-            "notify": "always",
-            "stop_id": 70242,
+            "stop_id": 70172,
             "VehicleRef": "410"
         },
         {
-            "cron": "0 45 16 * * *",
-            "notify": "always",
-            "stop_id": 70242,
-            "VehicleRef": "410"
-        },
-        {
-            "cron": "0 50 16 * * *",
-            "notify": "always",
-            "stop_id": 70242,
-            "VehicleRef": "410"
-        },
-        {
-            "cron": "0 55 16 * * *",
-            "notify": "always",
-            "stop_id": 70242,
+            "cron": "0 55 16 * * 1-5",
+            "notify": "late",
+            "stop_id": 70172,
             "VehicleRef": "410"
         }
     ]
