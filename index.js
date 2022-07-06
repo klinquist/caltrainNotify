@@ -1,4 +1,5 @@
 const CronJob = require('cron').CronJob;
+const cronstrue = require('cronstrue');
 const _ = require('lodash');
 const axios = require('axios')
 const config = JSON.parse(require('fs').readFileSync('./config.json', 'utf8'))
@@ -121,17 +122,9 @@ async function checkSchedule(schedule) {
 
 
 
-
-
-
-
-
-
-
-
 (async () => {
     config.schedules.forEach((schedule) => {
-        console.log(`Scheduling cron: ${schedule.cron} for train ${schedule.VehicleRef} at stop ${schedule.stop_id}`)
+        console.log(`Scheduling: ${cronstrue.toString(schedule.cron)} for train ${schedule.VehicleRef} at stop ${schedule.stop_id}`)
         const job = new CronJob(schedule.cron, function () {
             checkSchedule(schedule)
         }, null, true, config.time_zone);
