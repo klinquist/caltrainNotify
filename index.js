@@ -30,7 +30,7 @@ async function checkSchedule(schedule) {
     console.log('Running cron: ' + JSON.stringify(schedule))
     let data;
     try {
-        data = await axios.get(`http://api.511.org/transit/VehicleMonitoring?api_key=${config['511_api_key']}&format=json&agency=CT`)
+        data = await axios.get(`http://api.511.org/transit/VehicleMonitoring?api_key=${config['511_api_key']}&format=json&agency=CT&VehicleID=${schedule.VehicleRef}`)
     } catch (err) {
         return console.log('Error receiving data from 511: ' + err)
     }
@@ -75,7 +75,7 @@ async function checkSchedule(schedule) {
             longitude: station.stop_lon
         }, {
             latitude: Number(record.VehicleLocation.latitude),
-            longitude: Number(record.VvehicleLocation.longitude)
+            longitude: Number(record.VehicleLocation.longitude)
         })
         let distanceMi = Math.round(0.000621371 * distanceM * 10) / 10
         let msg = `Train ${schedule.VehicleRef} is ${distanceMi} from ${station.stop_name}`
@@ -85,8 +85,18 @@ async function checkSchedule(schedule) {
     } else {
 
         let s = yourStop.StopPointName.replace('Caltrain Station', '').trim()
-        let sch = moment(yourStop.AimedDepartureTime)
-        let act = moment(yourStop.ExpectedDepartureTime);
+
+        let sch, act, arrivalOrDeparture;
+        if (yourStop.AimedArrivalTime && yourStop.ExpectedArrivalTime) {
+            sch = moment(yourStop.AimedArrivalTime)
+            act = moment(yourStop.ExpectedArrivalTime);
+            which = 'arrive'
+        } else {
+            sch = moment(yourStop.AimedDepartureTime)
+            act = moment(yourStop.ExpectedDepartureTime);
+            which = 'depart'
+        }
+
         let diff = act.diff(sch, 'minutes')
         let tf = act.format('h:mm:ss')
         let str = `${s} @ ${tf}`
@@ -94,10 +104,12 @@ async function checkSchedule(schedule) {
         if (schedule.notify == 'always' || (schedule.notify == 'late' && diff > 1)) {
             if (diff > 0) {
                 str += ` (${diff}m late)`
+            } else if (diff < 0) {
+                str += ` (${-diff}m early)`
             } else {
                 str += ` (on time)`
             }
-            let msg = `Train ${schedule.VehicleRef} is expected to depart ${str}`
+            let msg = `Train ${schedule.VehicleRef} is expected to ${which} ${str}`
             console.log(msg)
             return sendPush(msg)
         } else {
