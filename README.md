@@ -48,63 +48,63 @@ F = Day of Week: 0-6 (Sun-Sat)
 
 | Station | stop_id |
 | ------- | ------- |
-| San Francisco Caltrain NORTHBOUND | 70011 |
-| San Francisco Caltrain SOUTHBOUND | 70012 |
-| 22nd Street Caltrain NORTHBOUND | 70021 |
-| 22nd Street Caltrain SOUTHBOUND | 70022 |
-| Bayshore Caltrain NORTHBOUND | 70031 |
-| Bayshore Caltrain SOUTHBOUND | 70032 |
-| South San Francisco Caltrain NORTHBOUND | 70041 |
-| South San Francisco Caltrain SOUTHBOUND | 70042 |
-| San Bruno Caltrain NORTHBOUND | 70051 |
-| San Bruno Caltrain SOUTHBOUND | 70052 |
-| Millbrae Caltrain NORTHBOUND | 70061 |
-| Millbrae Caltrain SOUTHBOUND | 70062 |
-| Broadway Caltrain NORTHBOUND | 70071 |
-| Broadway Caltrain SOUTHBOUND | 70072 |
-| Burlingame Caltrain NORTHBOUND | 70081 |
-| Burlingame Caltrain SOUTHBOUND | 70082 |
-| San Mateo Caltrain NORTHBOUND | 70091 |
-| San Mateo Caltrain SOUTHBOUND | 70092 |
-| Hayward Park Caltrain NORTHBOUND | 70101 |
-| Hayward Park Caltrain SOUTHBOUND | 70102 |
-| Hillsdale Caltrain NORTHBOUND | 70111 |
-| Hillsdale Caltrain SOUTHBOUND | 70112 |
-| Belmont Caltrain NORTHBOUND | 70121 |
-| Belmont Caltrain SOUTHBOUND | 70122 |
-| San Carlos Caltrain NORTHBOUND | 70131 |
-| San Carlos Caltrain SOUTHBOUND | 70132 |
-| Redwood City Caltrain NORTHBOUND | 70141 |
-| Redwood City Caltrain SOUTHBOUND | 70142 |
-| Menlo Park Caltrain NORTHBOUND | 70161 |
-| Menlo Park Caltrain SOUTHBOUND | 70162 |
-| Palo Alto Caltrain NORTHBOUND | 70171 |
-| Palo Alto Caltrain SOUTHBOUND | 70172 |
-| California Ave Caltrain NORTHBOUND | 70191 |
-| California Ave Caltrain SOUTHBOUND | 70192 |
-| San Antonio Caltrain NORTHBOUND | 70201 |
-| San Antonio Caltrain SOUTHBOUND | 70202 |
-| Mountain View Caltrain NORTHBOUND | 70211 |
-| Mountain View Caltrain SOUTHBOUND | 70212 |
-| Sunnyvale Caltrain NORTHBOUND | 70221 |
-| Sunnyvale Caltrain SOUTHBOUND | 70222 |
-| Lawrence Caltrain NORTHBOUND | 70231 |
-| Lawrence Caltrain SOUTHBOUND | 70232 |
-| Santa Clara Caltrain NORTHBOUND | 70241 |
-| Santa Clara Caltrain SOUTHBOUND | 70242 |
-| College Park Caltrain NORTHBOUND | 70251 |
-| College Park Caltrain SOUTHBOUND | 70252 |
-| San Jose Diridon Caltrain NORTHBOUND | 70261 |
-| San Jose Diridon Caltrain SOUTHBOUND | 70262 |
-| Tamien Caltrain NORTHBOUND | 70271 |
-| Tamien Caltrain SOUTHBOUND | 70272 |
-| Capitol Caltrain NORTHBOUND | 70281 |
-| Capitol Caltrain SOUTHBOUND | 70282 |
-| Blossom Hill Caltrain NORTHBOUND | 70291 |
-| Blossom Hill Caltrain SOUTHBOUND | 70292 |
-| Morgan Hill Caltrain NORTHBOUND | 70301 |
-| Morgan Hill Caltrain SOUTHBOUND | 70302 |
-| San Martin Caltrain NORTHBOUND | 70311 |
-| San Martin Caltrain SOUTHBOUND | 70312 |
-| Gilroy Caltrain NORTHBOUND | 70321 |
-| Gilroy Caltrain SOUTHBOUND | 70322 |
+| San Francisco trains headed NORTHBOUND | 70011 |
+| San Francisco trains headed SOUTHBOUND | 70012 |
+| 22nd Street trains headed NORTHBOUND | 70021 |
+| 22nd Street trains headed SOUTHBOUND | 70022 |
+| Bayshore trains headed NORTHBOUND | 70031 |
+| Bayshore trains headed SOUTHBOUND | 70032 |
+| South San Francisco trains headed NORTHBOUND | 70041 |
+| South San Francisco trains headed SOUTHBOUND | 70042 |
+| San Bruno trains headed NORTHBOUND | 70051 |
+| San Bruno trains headed SOUTHBOUND | 70052 |
+| Millbrae trains headed NORTHBOUND | 70061 |
+| Millbrae trains headed SOUTHBOUND | 70062 |
+| Broadway trains headed NORTHBOUND | 70071 |
+| Broadway trains headed SOUTHBOUND | 70072 |
+| Burlingame trains headed NORTHBOUND | 70081 |
+| Burlingame trains headed SOUTHBOUND | 70082 |
+| San Mateo trains headed NORTHBOUND | 70091 |
+| San Mateo trains headed SOUTHBOUND | 70092 |
+| Hayward Park trains headed NORTHBOUND | 70101 |
+| Hayward Park trains headed SOUTHBOUND | 70102 |
+| Hillsdale trains headed NORTHBOUND | 70111 |
+| Hillsdale trains headed SOUTHBOUND | 70112 |
+| Belmont trains headed NORTHBOUND | 70121 |
+| Belmont trains headed SOUTHBOUND | 70122 |
+| San Carlos trains headed NORTHBOUND | 70131 |
+| San Carlos trains headed SOUTHBOUND | 70132 |
+| Redwood City trains headed NORTHBOUND | 70141 |
+| Redwood City trains headed SOUTHBOUND | 70142 |
+| Menlo Park trains headed NORTHBOUND | 70161 |
+| Menlo Park trains headed SOUTHBOUND | 70162 |
+| Palo Alto trains headed NORTHBOUND | 70171 |
+| Palo Alto trains headed SOUTHBOUND | 70172 |
+| California Ave trains headed NORTHBOUND | 70191 |
+| California Ave trains headed SOUTHBOUND | 70192 |
+| San Antonio trains headed NORTHBOUND | 70201 |
+| San Antonio trains headed SOUTHBOUND | 70202 |
+| Mountain View trains headed NORTHBOUND | 70211 |
+| Mountain View trains headed SOUTHBOUND | 70212 |
+| Sunnyvale trains headed NORTHBOUND | 70221 |
+| Sunnyvale trains headed SOUTHBOUND | 70222 |
+| Lawrence trains headed NORTHBOUND | 70231 |
+| Lawrence trains headed SOUTHBOUND | 70232 |
+| Santa Clara trains headed NORTHBOUND | 70241 |
+| Santa Clara trains headed SOUTHBOUND | 70242 |
+| College Park trains headed NORTHBOUND | 70251 |
+| College Park trains headed SOUTHBOUND | 70252 |
+| San Jose Diridon trains headed NORTHBOUND | 70261 |
+| San Jose Diridon trains headed SOUTHBOUND | 70262 |
+| Tamien trains headed NORTHBOUND | 70271 |
+| Tamien trains headed SOUTHBOUND | 70272 |
+| Capitol trains headed NORTHBOUND | 70281 |
+| Capitol trains headed SOUTHBOUND | 70282 |
+| Blossom Hill trains headed NORTHBOUND | 70291 |
+| Blossom Hill trains headed SOUTHBOUND | 70292 |
+| Morgan Hill trains headed NORTHBOUND | 70301 |
+| Morgan Hill trains headed SOUTHBOUND | 70302 |
+| San Martin trains headed NORTHBOUND | 70311 |
+| San Martin trains headed SOUTHBOUND | 70312 |
+| Gilroy trains headed NORTHBOUND | 70321 |
+| Gilroy trains headed SOUTHBOUND | 70322 |
