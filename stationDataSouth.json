@@ -1,0 +1,211 @@
+[{
+        "stop_id": 70012,
+        "stop_code": 70012,
+        "stop_name": "San Francisco Caltrain",
+        "stop_lat": 37.776348,
+        "stop_lon": -122.394935
+    },
+    {
+        "stop_id": 70022,
+        "stop_code": 70022,
+        "stop_name": "22nd Street Caltrain",
+        "stop_lat": 37.757583,
+        "stop_lon": -122.392404
+    },
+    {
+        "stop_id": 70032,
+        "stop_code": 70032,
+        "stop_name": "Bayshore Caltrain",
+        "stop_lat": 37.709544,
+        "stop_lon": -122.40198
+    },
+    {
+        "stop_id": 70042,
+        "stop_code": 70042,
+        "stop_name": "South San Francisco Caltrain",
+        "stop_lat": 37.655946,
+        "stop_lon": -122.405018
+    },
+    {
+        "stop_id": 70052,
+        "stop_code": 70052,
+        "stop_name": "San Bruno Caltrain",
+        "stop_lat": 37.631108,
+        "stop_lon": -122.412076
+    },
+    {
+        "stop_id": 70062,
+        "stop_code": 70062,
+        "stop_name": "Millbrae Caltrain",
+        "stop_lat": 37.599797,
+        "stop_lon": -122.386832
+    },
+    {
+        "stop_id": 70072,
+        "stop_code": 70072,
+        "stop_name": "Broadway Caltrain",
+        "stop_lat": 37.587552,
+        "stop_lon": -122.362708
+    },
+    {
+        "stop_id": 70082,
+        "stop_code": 70082,
+        "stop_name": "Burlingame Caltrain",
+        "stop_lat": 37.580186,
+        "stop_lon": -122.345075
+    },
+    {
+        "stop_id": 70092,
+        "stop_code": 70092,
+        "stop_name": "San Mateo Caltrain",
+        "stop_lat": 37.568294,
+        "stop_lon": -122.324092
+    },
+    {
+        "stop_id": 70102,
+        "stop_code": 70102,
+        "stop_name": "Hayward Park Caltrain",
+        "stop_lat": 37.552994,
+        "stop_lon": -122.309608
+    },
+    {
+        "stop_id": 70112,
+        "stop_code": 70112,
+        "stop_name": "Hillsdale Caltrain",
+        "stop_lat": 37.542536,
+        "stop_lon": -122.301666
+    },
+    {
+        "stop_id": 70122,
+        "stop_code": 70122,
+        "stop_name": "Belmont Caltrain",
+        "stop_lat": 37.520844,
+        "stop_lon": -122.275816
+    },
+    {
+        "stop_id": 70132,
+        "stop_code": 70132,
+        "stop_name": "San Carlos Caltrain",
+        "stop_lat": 37.507933,
+        "stop_lon": -122.260266
+    },
+    {
+        "stop_id": 70142,
+        "stop_code": 70142,
+        "stop_name": "Redwood City Caltrain",
+        "stop_lat": 37.486101,
+        "stop_lon": -122.232
+    },
+    {
+        "stop_id": 70162,
+        "stop_code": 70162,
+        "stop_name": "Menlo Park Caltrain",
+        "stop_lat": 37.454745,
+        "stop_lon": -122.182405
+    },
+    {
+        "stop_id": 70172,
+        "stop_code": 70172,
+        "stop_name": "Palo Alto Caltrain",
+        "stop_lat": 37.443405,
+        "stop_lon": -122.164697
+    },
+    {
+        "stop_id": 70192,
+        "stop_code": 70192,
+        "stop_name": "California Ave Caltrain",
+        "stop_lat": 37.429333,
+        "stop_lon": -122.141978
+    },
+    {
+        "stop_id": 70202,
+        "stop_code": 70202,
+        "stop_name": "San Antonio Caltrain",
+        "stop_lat": 37.407277,
+        "stop_lon": -122.107125
+    },
+    {
+        "stop_id": 70212,
+        "stop_code": 70212,
+        "stop_name": "Mountain View Caltrain",
+        "stop_lat": 37.394402,
+        "stop_lon": -122.075994
+    },
+    {
+        "stop_id": 70222,
+        "stop_code": 70222,
+        "stop_name": "Sunnyvale Caltrain",
+        "stop_lat": 37.378789,
+        "stop_lon": -122.031423
+    },
+    {
+        "stop_id": 70232,
+        "stop_code": 70232,
+        "stop_name": "Lawrence Caltrain",
+        "stop_lat": 37.370484,
+        "stop_lon": -121.997135
+    },
+    {
+        "stop_id": 70242,
+        "stop_code": 70242,
+        "stop_name": "Santa Clara Caltrain",
+        "stop_lat": 37.353189,
+        "stop_lon": -121.936135
+    },
+    {
+        "stop_id": 70252,
+        "stop_code": 70252,
+        "stop_name": "College Park Caltrain",
+        "stop_lat": 37.342338,
+        "stop_lon": -121.914677
+    },
+    {
+        "stop_id": 70262,
+        "stop_code": 70262,
+        "stop_name": "San Jose Diridon Caltrain",
+        "stop_lat": 37.329231,
+        "stop_lon": -121.903173
+    },
+    {
+        "stop_id": 70272,
+        "stop_code": 70272,
+        "stop_name": "Tamien Caltrain",
+        "stop_lat": 37.31175,
+        "stop_lon": -121.883999
+    },
+    {
+        "stop_id": 70282,
+        "stop_code": 70282,
+        "stop_name": "Capitol Caltrain",
+        "stop_lat": 37.284062,
+        "stop_lon": -121.842037
+    },
+    {
+        "stop_id": 70292,
+        "stop_code": 70292,
+        "stop_name": "Blossom Hill Caltrain",
+        "stop_lat": 37.252379,
+        "stop_lon": -121.797683
+    },
+    {
+        "stop_id": 70302,
+        "stop_code": 70302,
+        "stop_name": "Morgan Hill Caltrain",
+        "stop_lat": 37.129321,
+        "stop_lon": -121.650304
+    },
+    {
+        "stop_id": 70312,
+        "stop_code": 70312,
+        "stop_name": "San Martin Caltrain",
+        "stop_lat": 37.086653,
+        "stop_lon": -121.610936
+    },
+    {
+        "stop_id": 70322,
+        "stop_code": 70322,
+        "stop_name": "Gilroy Caltrain",
+        "stop_lat": 37.003485,
+        "stop_lon": -121.566225
+    }
+]
