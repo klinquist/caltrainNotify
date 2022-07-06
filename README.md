@@ -6,7 +6,7 @@
 I have this script send me several push notifications each morning as my train gets closer, assuming the data will get more accurate.
 It takes me ~7 minutes to get to the station, so for a 6:50 train, I have it notify me at 6:35, 6:40, 6:45.  It can then notify at 6:55, but only if the train is late.   Each of these notifications is set up as a cron.
 
-The 511 API sometimes does not provide arrival/departure information for an upcoming stop. In this case, you will get a push notification with the distance (in miles) to the station.  Hopefully you can use distance as a proxy for time once a pattern has been established.
+The 511 API sometimes does not provide arrival/departure information for an upcoming stop. In this case, you will get a push notification with the train's distance (in miles) to the station.  Hopefully you can use distance as a proxy for time once a pattern has been established.
 
 
 ### Installing
