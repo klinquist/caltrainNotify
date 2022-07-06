@@ -87,7 +87,7 @@ async function checkSchedule(schedule) {
 
         let s = yourStop.StopPointName.replace('Caltrain Station', '').trim()
 
-        let sch, act, arrivalOrDeparture;
+        let sch, act, which;
         if (yourStop.AimedArrivalTime && yourStop.ExpectedArrivalTime) {
             sch = moment(yourStop.AimedArrivalTime)
             act = moment(yourStop.ExpectedArrivalTime);
