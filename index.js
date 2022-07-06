@@ -8,7 +8,7 @@ const Push = require('pushover-notifications');
 const geolib = require('geolib')
 
 let nb = JSON.parse(require('fs').readFileSync('./stationDataNorth.json', 'utf8'))
-let sb = JSON.parse(require('fs').readFileSync('./stationDataNorth.json', 'utf8'))
+let sb = JSON.parse(require('fs').readFileSync('./stationDataSouth.json', 'utf8'))
 
 
 const push = new Push({
@@ -57,29 +57,17 @@ async function checkSchedule(schedule) {
     })
 
     if (!yourStop) {
-        console.log(`No stop data for train rain ${schedule.VehicleRef} at station stop_id ${schedule.stop_id}. Sending push notification with distance data.`)
+        console.log(`No stop data for train ${schedule.VehicleRef} at ${schedule.station.stop_name}. Sending push notification with distance data.`)
 
-        let station = _.find(nb, (n) => {
-            return n.stop_id == schedule.stop_id
-        })
-        if (!station) {
-            station = _.find(sb, (n) => {
-                return n.stop_id == schedule.stop_id
-            })
-        }
-        if (!station) {
-            return console.log("Invalid station")
-        }
-        record.VehicleLocation
         let distanceM = geolib.getPreciseDistance({
-            latitude: station.stop_lat,
-            longitude: station.stop_lon
+            latitude: schedule.station.stop_lat,
+            longitude: schedule.station.stop_lon
         }, {
             latitude: Number(record.VehicleLocation.latitude),
             longitude: Number(record.VehicleLocation.longitude)
         })
         let distanceMi = Math.round(0.000621371 * distanceM * 10) / 10
-        let msg = `Train ${schedule.VehicleRef} is ${distanceMi} from ${station.stop_name}`
+        let msg = `Train ${schedule.VehicleRef} is ${distanceMi} from ${schedule.station.stop_name}`
         console.log(msg)
         return sendPush(msg)
     
@@ -124,7 +112,20 @@ async function checkSchedule(schedule) {
 
 (async () => {
     config.schedules.forEach((schedule) => {
-        console.log(`Scheduling: ${cronstrue.toString(schedule.cron)} for train ${schedule.VehicleRef} at stop ${schedule.stop_id}`)
+
+        let station = _.find(nb, (n) => {
+            return n.stop_id == schedule.stop_id
+        })
+        if (!station) {
+            station = _.find(sb, (n) => {
+                return n.stop_id == schedule.stop_id
+            })
+        }
+        if (!station) {
+            return console.log(`Skipping ${schedule.stop_id} : Invalid station`)
+        }
+        schedule.station = station
+        console.log(`Scheduling: ${cronstrue.toString(schedule.cron)} for train ${schedule.VehicleRef} at ${schedule.station.stop_name}`)
         const job = new CronJob(schedule.cron, function () {
             checkSchedule(schedule)
         }, null, true, config.time_zone);
