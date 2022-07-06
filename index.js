@@ -32,9 +32,10 @@ async function checkSchedule(schedule) {
     try {
         data = await axios.get(`http://api.511.org/transit/VehicleMonitoring?api_key=${config['511_api_key']}&format=json&agency=CT`)
     } catch (err) {
-        console.log('Error receiving data from 511: ' + err)
+        return console.log('Error receiving data from 511: ' + err)
     }
-    if (!data) {
+    if (!data || !data.data) {
+        console.log('Error receiving data from 511.')
         return
     }
 
@@ -57,9 +58,9 @@ async function checkSchedule(schedule) {
     })
 
     if (!yourStop) {
-        console.log(`Skipping: Train ${schedule.VehicleRef} is not stopping at ${schedule.stop_id}`)
+        console.log(`No stop data for train rain ${schedule.VehicleRef} at station stop_id ${schedule.stop_id}. Sending push notification with distance data.`)
 
-        let station = _.find(nb, (n)=>{
+        let station = _.find(nb, (n) => {
             return n.stop_id == schedule.stop_id
         })
         if (!station) {
@@ -76,27 +77,31 @@ async function checkSchedule(schedule) {
         let distanceM = geolib.getPreciseDistance({ latitude: stationLat, longitude: stationLong }, { latitude: vehicleLocation.latitude, longitude: vehicleLocation.longitude })
         let distanceMi = Math.round(0.000621371 * distanceM * 10) / 10
         let msg = `Train ${schedule.VehicleRef} is ${distanceMi} from ${station.stop_name}`
+        console.log(msg)
         return sendPush(msg)
-    }
-
-    let s = yourStop.StopPointName.replace('Caltrain Station', '').trim()
-    let sch = moment(yourStop.AimedDepartureTime)
-    let act = moment(yourStop.ExpectedDepartureTime);
-    let diff = act.diff(sch, 'minutes')
-    let tf = act.format('h:mm:ss')
-    let str = `${s} @ ${tf}`
-
-
-    if (schedule.notify == 'always' || (schedule.notify == 'late' && diff > 1)) {
-        if (diff > 0) {
-            str += ` (${diff}m late)`
-        } else {
-            str += ` (on time)`
-        }
-        let msg = `Train ${schedule.VehicleRef} is expected to depart ${str}`
-        sendPush(msg)
+    
     } else {
-        console.log('Not sending notification - train is on time.')
+
+        let s = yourStop.StopPointName.replace('Caltrain Station', '').trim()
+        let sch = moment(yourStop.AimedDepartureTime)
+        let act = moment(yourStop.ExpectedDepartureTime);
+        let diff = act.diff(sch, 'minutes')
+        let tf = act.format('h:mm:ss')
+        let str = `${s} @ ${tf}`
+
+
+        if (schedule.notify == 'always' || (schedule.notify == 'late' && diff > 1)) {
+            if (diff > 0) {
+                str += ` (${diff}m late)`
+            } else {
+                str += ` (on time)`
+            }
+            let msg = `Train ${schedule.VehicleRef} is expected to depart ${str}`
+            console.log(msg)
+            return sendPush(msg)
+        } else {
+            return console.log('Not sending notification - train is on time.')
+        }
     }
 }
 
