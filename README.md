@@ -27,12 +27,21 @@ Run `nodejs index.js` to begin.  Run it under `pm2` (or similar) for persistence
 
 
 #### Cron reference:
-Seconds: 0-59
-Minutes: 0-59
-Hours: 0-23
-Day of Month: 1-31
-Months: 0-11 (Jan-Dec)
-Day of Week: 0-6 (Sun-Sat)
+
+"A B C D E F"
+
+A = Seconds: 0-59
+
+B = Minutes: 0-59
+
+C = Hours: 0-23
+
+D = Day of Month: 1-31
+
+E = Months: 0-11 (Jan-Dec)
+
+F = Day of Week: 0-6 (Sun-Sat)
+
 
 
 #### Station stop_id reference:
