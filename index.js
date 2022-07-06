@@ -40,7 +40,12 @@ async function checkSchedule(schedule) {
     }
 
     let entries = []
-    data.data.Siri.ServiceDelivery.VehicleMonitoringDelivery.VehicleActivity.forEach((v) => {
+    let VehicleActivity = _.get(data, 'data.Siri.ServiceDelivery.VehicleMonitoringDelivery.VehicleActivity')
+    if (!VehicleActivity) {
+        return sendPush(`No activity found for train ${schedule.VehicleRef}`)
+    }
+
+    VehicleActivity.forEach((v) => {
         entries.push(v.MonitoredVehicleJourney)
     })
 
@@ -56,21 +61,35 @@ async function checkSchedule(schedule) {
         return Number(n.StopPointRef) == Number(schedule.stop_id)
     })
 
+    //If your stop is the next stop, the arrival data will show up in the MonitoredCall object
+    //rather than the OnwardCalls array.
+
+    if (!yourStop && Number(record.MonitoredCall.StopPointRef) == Number(schedule.stop_id)) {
+        yourStop = record.MonitoredCall
+    }
+
+    let distanceM = geolib.getPreciseDistance({
+        latitude: schedule.station.stop_lat,
+        longitude: schedule.station.stop_lon
+    }, {
+        latitude: Number(record.VehicleLocation.Latitude),
+        longitude: Number(record.VehicleLocation.Longitude)
+    })
+    let distanceMi = Math.round(0.000621371 * distanceM * 10) / 10
+    let dir = geolib.getCompassDirection({
+        latitude: schedule.station.stop_lat,
+        longitude: schedule.station.stop_lon
+    }, {
+        latitude: Number(record.VehicleLocation.Latitude),
+        longitude: Number(record.VehicleLocation.Longitude)
+    })
+    
+    
     if (!yourStop) {
         console.log(`No stop data for train ${schedule.VehicleRef} at ${schedule.station.stop_name}. Sending push notification with distance data.`)
-
-        let distanceM = geolib.getPreciseDistance({
-            latitude: schedule.station.stop_lat,
-            longitude: schedule.station.stop_lon
-        }, {
-            latitude: Number(record.VehicleLocation.latitude),
-            longitude: Number(record.VehicleLocation.longitude)
-        })
-        let distanceMi = Math.round(0.000621371 * distanceM * 10) / 10
-        let msg = `Train ${schedule.VehicleRef} is ${distanceMi} from ${schedule.station.stop_name}`
+        let msg = `Train ${schedule.VehicleRef} is ${distanceMi}mi ${dir} from ${schedule.station.stop_name}`
         console.log(msg)
         return sendPush(msg)
-    
     } else {
 
         let s = yourStop.StopPointName.replace('Caltrain Station', '').trim()
@@ -98,7 +117,7 @@ async function checkSchedule(schedule) {
             } else {
                 str += ` (on time)`
             }
-            let msg = `Train ${schedule.VehicleRef} is expected to ${which} ${str}`
+            let msg = `Train ${schedule.VehicleRef} is ${distanceMi}mi away and expected to ${which} ${str}`
             console.log(msg)
             return sendPush(msg)
         } else {
