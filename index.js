@@ -69,10 +69,14 @@ async function checkSchedule(schedule) {
         if (!station) {
             return console.log("Invalid station")
         }
-        let stationLat = station.stop_lat
-        let stationLong = station.stop_lon
-        let vehicleLocation = record.vehicleLocation
-        let distanceM = geolib.getPreciseDistance({ latitude: stationLat, longitude: stationLong }, { latitude: vehicleLocation.latitude, longitude: vehicleLocation.longitude })
+        record.VehicleLocation
+        let distanceM = geolib.getPreciseDistance({
+            latitude: station.stop_lat,
+            longitude: station.stop_lon
+        }, {
+            latitude: Number(record.VehicleLocation.latitude),
+            longitude: Number(record.VvehicleLocation.longitude)
+        })
         let distanceMi = Math.round(0.000621371 * distanceM * 10) / 10
         let msg = `Train ${schedule.VehicleRef} is ${distanceMi} from ${station.stop_name}`
         console.log(msg)
