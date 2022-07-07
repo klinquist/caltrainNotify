@@ -108,3 +108,8 @@ F = Day of Week: 0-6 (Sun-Sat)
 | San Martin trains headed SOUTHBOUND | 70312 |
 | Gilroy trains headed NORTHBOUND | 70321 |
 | Gilroy trains headed SOUTHBOUND | 70322 |
+
+
+### Learnings
+
+Trains typically show up as arriving early, but they don't actually arrive early.  I think 511.org's time agorithm does not take stops into account (the further back on the line you go, the earlier it'll say a train will arrive at a given station).  Therefore, if I show a train as arriving early, I still say it's "on time" and show the scheduled arrival time - because it won't depart early.

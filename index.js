@@ -107,19 +107,21 @@ async function checkSchedule(schedule) {
 
         let diff = act.diff(sch, 'minutes')
         let tf = act.format('h:mm:ss')
-        let str = `${s} @ ${tf}`
+
+        let schf = sch.format('h:mm:ss')
 
         //This is a fix for some bad data I see on 511 when traversing UTC dates.
         if (diff > 1400) {
             diff = diff - 1440
         }
-
+        
+        let str = ''
         if (schedule.notify == 'always' || (schedule.notify == 'late' && diff > 1)) {
             if (diff > 0) {
+                str += `${s} @ ${tf}`
                 str += ` (${diff}m late)`
-            } else if (diff < 0) {
-                str += ` (${-diff}m early)`
             } else {
+                str += `${s} @ ${schf}`
                 str += ` (on time)`
             }
             let msg = `Train ${schedule.VehicleRef} is ${distanceMi}mi away and expected to ${which} ${str}`
