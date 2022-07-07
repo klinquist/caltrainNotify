@@ -1,14 +1,22 @@
+//There are times when 511 doesn't return any data for a given train.  Retrying seems to help.
+const MAX_RETRIES = 3;
+const SECONDS_BETWEEN_RETRIES = 15;
+
+
+
 const CronJob = require('cron').CronJob;
 const cronstrue = require('cronstrue');
 const _ = require('lodash');
 const axios = require('axios')
-const config = JSON.parse(require('fs').readFileSync('./config.json', 'utf8'))
 const moment = require('moment')
 const Push = require('pushover-notifications');
 const geolib = require('geolib')
 
-let nb = JSON.parse(require('fs').readFileSync('./stationDataNorth.json', 'utf8'))
-let sb = JSON.parse(require('fs').readFileSync('./stationDataSouth.json', 'utf8'))
+
+const config = JSON.parse(require('fs').readFileSync('./config.json', 'utf8'))
+const nb = JSON.parse(require('fs').readFileSync('./stationDataNorth.json', 'utf8'))
+const sb = JSON.parse(require('fs').readFileSync('./stationDataSouth.json', 'utf8'))
+
 
 
 const push = new Push({
@@ -16,35 +24,80 @@ const push = new Push({
     token: config.pushover_api_token
 });
 
+
+
+
 const sendPush = (txt) => {
     push.send({
         message: txt,
         priority: 1
     }, (err) => {
-        if (err) console.log('Error sending push notification: ' + err);
+        if (err) log('Error sending push notification: ' + err);
     });
 }
 
+
 sendPush('Starting CaltrainNotify')
 
+
+
+const log = (msg) => {
+    let now = moment().format('YYYY-MM-DD HH:mm:ss')
+    console.log(`${now} - ${msg}`)
+}
+
+
+
+let sleep = async function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+};
+
+
+
+
+const httpGetWithRetry = async (url) => {
+    return new Promise(async (resolve, reject) => {
+        let retries = 0;
+        let success = false;
+        while (retries < MAX_RETRIES && !success) {
+            if (retries > 0) {
+                log(`Waiting ${SECONDS_BETWEEN_RETRIES} seconds before retrying...`)
+                await sleep(SECONDS_BETWEEN_RETRIES * 1000)
+            }
+            let data;
+            log('Making request to ' + url)
+            try {
+                data = await axios.get(url);
+            } catch (err) {
+                return reject(err)
+            }
+            if (!data || !data.data) {
+                return reject('Error receiving data from 511.')
+            }
+            let VehicleActivity = _.get(data, 'data.Siri.ServiceDelivery.VehicleMonitoringDelivery.VehicleActivity')
+            if (VehicleActivity) {
+                success = true
+                return resolve(VehicleActivity)
+            } else {
+                retries++;
+            }
+        }
+        reject(`Train not found after ${MAX_RETRIES} retries.`)
+    })
+}
+
+
+
 async function checkSchedule(schedule) {
-    console.log('Running cron: ' + JSON.stringify(schedule))
-    let data;
+    let VehicleActivity;
     try {
-        data = await axios.get(`http://api.511.org/transit/VehicleMonitoring?api_key=${config['511_api_key']}&format=json&agency=CT&VehicleID=${schedule.VehicleRef}`)
+        VehicleActivity = await httpGetWithRetry(`http://api.511.org/transit/VehicleMonitoring?api_key=${config['511_api_key']}&format=json&agency=CT&VehicleID=${schedule.VehicleRef}`)
     } catch (err) {
-        return console.log('Error receiving data from 511: ' + err)
-    }
-    if (!data || !data.data) {
-        return console.log('Error receiving data from 511.')
+        return sendPush('Error:  ' + err)
     }
 
     let entries = []
-    let VehicleActivity = _.get(data, 'data.Siri.ServiceDelivery.VehicleMonitoringDelivery.VehicleActivity')
-    if (!VehicleActivity) {
-        return sendPush(`No activity found for train ${schedule.VehicleRef}`)
-    }
-
+    
     VehicleActivity.forEach((v) => {
         entries.push(v.MonitoredVehicleJourney)
     })
@@ -54,7 +107,7 @@ async function checkSchedule(schedule) {
     })
 
     if (!record) {
-        return console.log(`Skipping: Train ${schedule.VehicleRef} is not currently found on the line`)
+        return log(`Skipping: Train ${schedule.VehicleRef} is not currently found on the line`)
     }
 
     let yourStop = _.find(record.OnwardCalls.OnwardCall, (n) => {
@@ -86,16 +139,20 @@ async function checkSchedule(schedule) {
     
     
     if (!yourStop) {
-        console.log(`No stop data for train ${schedule.VehicleRef} at ${schedule.station.stop_name}. Sending push notification with distance data.`)
+        log(`No stop data for train ${schedule.VehicleRef} at ${schedule.station.stop_name}. Sending push notification with distance data.`)
         let msg = `Train ${schedule.VehicleRef} is ${distanceMi}mi ${dir} from ${schedule.station.stop_name}`
-        console.log(msg)
+        log(msg)
         return sendPush(msg)
     } else {
 
         let s = yourStop.StopPointName.replace('Caltrain Station', '').trim()
-
         let sch, act, which;
-        if (yourStop.AimedArrivalTime && yourStop.ExpectedArrivalTime) {
+
+        //Lets default to the arrival time if it's available
+        //  (It's not available at the origin station)
+        //  This could be a configuration option!
+
+        if (yourStop.AimedArrivalTime && yourStop.ExpectedArrivalTime) { 
             sch = moment(yourStop.AimedArrivalTime)
             act = moment(yourStop.ExpectedArrivalTime);
             which = 'arrive'
@@ -106,16 +163,16 @@ async function checkSchedule(schedule) {
         }
 
         let diff = act.diff(sch, 'minutes')
-        let tf = act.format('h:mm:ss')
-
-        let schf = sch.format('h:mm:ss')
+        let tf = act.format('h:mm')
+        let schf = sch.format('h:mm')
 
         //This is a fix for some bad data I see on 511 when traversing UTC dates.
         if (diff > 1400) {
             diff = diff - 1440
         }
-        
+
         let str = ''
+
         if (schedule.notify == 'always' || (schedule.notify == 'late' && diff > 1)) {
             if (diff > 0) {
                 str += `${s} @ ${tf}`
@@ -125,20 +182,17 @@ async function checkSchedule(schedule) {
                 str += ` (on time)`
             }
             let msg = `Train ${schedule.VehicleRef} is ${distanceMi}mi away and expected to ${which} ${str}`
-            console.log(msg)
+            log(msg)
             return sendPush(msg)
         } else {
-            return console.log('Not sending notification - train is on time.')
+            return log('Not sending notification - train is on time.')
         }
     }
 }
 
 
-
-
 (async () => {
     config.schedules.forEach((schedule) => {
-
         let station = _.find(nb, (n) => {
             return n.stop_id == schedule.stop_id
         })
@@ -148,10 +202,10 @@ async function checkSchedule(schedule) {
             })
         }
         if (!station) {
-            return console.log(`Skipping ${schedule.stop_id} : Invalid station`)
+            return log(`Skipping ${schedule.stop_id} : Invalid station`)
         }
         schedule.station = station
-        console.log(`Scheduling: ${cronstrue.toString(schedule.cron)} for train ${schedule.VehicleRef} at ${schedule.station.stop_name}`)
+        log(`Scheduling: ${cronstrue.toString(schedule.cron)} for train ${schedule.VehicleRef} at ${schedule.station.stop_name}`)
         const job = new CronJob(schedule.cron, function () {
             checkSchedule(schedule)
         }, null, true, config.time_zone);
